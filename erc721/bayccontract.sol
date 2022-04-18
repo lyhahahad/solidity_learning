@@ -1907,10 +1907,14 @@ pragma solidity ^0.7.0;
 /**
  * @title BoredApeYachtClub contract
  * @dev Extends ERC721 Non-Fungible Token Standard basic implementation
+ * 스토리지, 메모리 얼마나 많이 사용하나?
  */
 contract BoredApeYachtClub is ERC721, Ownable {
     using SafeMath for uint256;
 
+    // mapping과 같이 여러 데이터를 저장하는 스토리지는 없고 
+    // 단일 값을 저장하는 변수만 스토리지에 저장한다.
+    // set함수도 많지 않아 스토리지에 접근해서 데이터를 바꿀 경우도 많지 않다.
     string public BAYC_PROVENANCE = "";
 
     uint256 public startingIndexBlock;
@@ -1926,6 +1930,7 @@ contract BoredApeYachtClub is ERC721, Ownable {
     bool public saleIsActive = false;
 
     uint256 public REVEAL_TIMESTAMP;
+
 
     constructor(string memory name, string memory symbol, uint256 maxNftSupply, uint256 saleStart) ERC721(name, symbol) {
         MAX_APES = maxNftSupply;
@@ -1975,6 +1980,11 @@ contract BoredApeYachtClub is ERC721, Ownable {
 
     /**
     * Mints Bored Apes
+    * 공격 가능성? 만약 두번째 조건이 없었다면 모든 토큰을 한 명이 모두 가져갈 수 있다.
+    * 하지만 여전히 공격 가능성은 남아있다.
+    * 여러 계정으로 시도한다면 모든 토큰을 한 명이 가져갈 수 있다.
+    * 이런 일을 방지하기 위해 이후에 나온 컨트랙트들은 prisale 기간을 만들고 화이트리스트만 민팅할 수 있도록 한 후
+    * pulic minting을 오픈했다.
     */
     function mintApe(uint numberOfTokens) public payable {
         require(saleIsActive, "Sale must be active to mint Ape");

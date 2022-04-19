@@ -2008,6 +2008,7 @@ contract BoredApeYachtClub is ERC721, Ownable {
 
     /**
      * Set the starting index for the collection
+     * 이미 스타트하면 더 이상 시간 바꿀 수 없음.
      */
     function setStartingIndex() public {
         require(startingIndex == 0, "Starting index is already set");

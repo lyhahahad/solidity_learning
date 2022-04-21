@@ -2001,6 +2001,8 @@ contract BoredApeYachtClub is ERC721, Ownable {
 
         // If we haven't set the starting index and this is either 1) the last saleable token or 2) the first token to be sold after
         // the end of pre-sale, set the starting index block
+        //startingindexblock가 0일 경우 그리고 모든 nft가 민팅됐거나 블록체인의 타임 스탬프가 REVEAL_TIMESTAMP = saleStart + (86400 * 9) 보다 크거나 같은 때 startingIndexBlock을 블록체인 블록 num으로 바꾼다.
+        
         if (startingIndexBlock == 0 && (totalSupply() == MAX_APES || block.timestamp >= REVEAL_TIMESTAMP)) {
             startingIndexBlock = block.number;
         } 
